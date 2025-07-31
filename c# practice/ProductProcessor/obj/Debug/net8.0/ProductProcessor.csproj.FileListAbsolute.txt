@@ -1,0 +1,15 @@
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\obj\Debug\net8.0\ProductProcessor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\obj\Debug\net8.0\ProductProcessor.AssemblyInfoInputs.cache
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\obj\Debug\net8.0\ProductProcessor.AssemblyInfo.cs
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\obj\Debug\net8.0\ProductProcessor.csproj.CoreCompileInputs.cache
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\obj\Debug\net8.0\ProductProcessor.sourcelink.json
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\bin\Debug\net8.0\ProductProcessor.exe
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\bin\Debug\net8.0\ProductProcessor.deps.json
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\bin\Debug\net8.0\ProductProcessor.runtimeconfig.json
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\bin\Debug\net8.0\ProductProcessor.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\bin\Debug\net8.0\ProductProcessor.pdb
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\obj\Debug\net8.0\ProductProcessor.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\obj\Debug\net8.0\refint\ProductProcessor.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\obj\Debug\net8.0\ProductProcessor.pdb
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\obj\Debug\net8.0\ProductProcessor.genruntimeconfig.cache
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\C#\practice\ProductProcessor\obj\Debug\net8.0\ref\ProductProcessor.dll
