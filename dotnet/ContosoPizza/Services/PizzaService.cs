@@ -1,47 +1,55 @@
 using ContosoPizza.Models;
+using System.Data;
+using Microsoft.Data.SqlClient;
+using Dapper;
 
 namespace ContosoPizza.Services;
 
-public static class PizzaService
+public class PizzaService : IPizzaService
 {
-    static List<Pizza> Pizzas { get; }
-    static int nextId = 3;
-    static PizzaService()
+    private readonly IConfiguration _configuration;
+
+    public PizzaService(IConfiguration configuration)
     {
-        Pizzas = new List<Pizza>
-        {
-            new Pizza { Id = 1, Name = "Classic Italian", IsGlutenFree = false},
-            new Pizza { Id = 2, Name = "Veggie", IsGlutenFree = true}
-        };
+        _configuration = configuration;
     }
 
-    public static List<Pizza> GetAll() => Pizzas;
+    private IDbConnection Connection =>
+        new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-    public static Pizza? Get(int id) => Pizzas.FirstOrDefault(p => p.Id == id);
-
-    public static void Add(Pizza pizza)
+    public async Task<IEnumerable<Pizza>> GetAllPizzasAsync()
     {
-        pizza.Id = nextId++;
-        Pizzas.Add(pizza);
+        using var db = Connection;
+        string sql = "SELECT * FROM Pizzas";
+        return await db.QueryAsync<Pizza>(sql);
     }
 
-    public static void Delete(int id)
+    public async Task<Pizza?> GetPizzaByIdAsync(int id)
     {
-        var pizza = Get(id);
-        if (pizza is null)
-        {
-            return;
-        }
-        Pizzas.Remove(pizza);
+        using var db = Connection;
+        string sql = "SELECT * FROM Pizzas WHERE Id = @Id";
+        return await db.QueryFirstOrDefaultAsync<Pizza>(sql, new { Id = id });
     }
 
-    public static void Update(Pizza pizza)
+    public async Task AddPizzaAsync(Pizza pizza)
     {
-        var index = Pizzas.FindIndex(p => p.Id == pizza.Id);
-        if (index == -1)
-        {
-            return;
-        }
-        Pizzas[index] = pizza;
+        using var db = Connection;
+        string sql = "INSERT INTO Pizzas (Name, IsGlutenFree) VALUES (@Name, @IsGlutenFree)";
+        await db.ExecuteAsync(sql, pizza);
+    }
+
+    public async Task UpdatePizzaAsync(int id, Pizza pizza)
+    {
+        using var db = Connection;
+        string sql = "UPDATE Pizzas SET Name = @Name, IsGlutenFree = @IsGlutenFree WHERE Id = @Id";
+        var parameters = new { pizza.Name, pizza.IsGlutenFree, Id = id };  
+        await db.ExecuteAsync(sql, parameters);
+    }
+
+    public async Task DeletePizzaAsync(int id)
+    {
+        using var db = Connection;
+        string sql = "DELETE FROM Pizzas WHERE Id = @Id";
+        await db.ExecuteAsync(sql, new { Id = id });
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Rushikesh.Shelar\\OneDrive - zeuslearning.com\\Desktop\\Rushikesh\\team hodder\\ContosoPizza\\ContosoPizza.csproj": {}
+    "C:\\Users\\Rushikesh.Shelar\\OneDrive - zeuslearning.com\\Desktop\\Rushikesh\\hodder-training\\dotnet\\ContosoPizza\\ContosoPizza.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Rushikesh.Shelar\\OneDrive - zeuslearning.com\\Desktop\\Rushikesh\\team hodder\\ContosoPizza\\ContosoPizza.csproj": {
+    "C:\\Users\\Rushikesh.Shelar\\OneDrive - zeuslearning.com\\Desktop\\Rushikesh\\hodder-training\\dotnet\\ContosoPizza\\ContosoPizza.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Rushikesh.Shelar\\OneDrive - zeuslearning.com\\Desktop\\Rushikesh\\team hodder\\ContosoPizza\\ContosoPizza.csproj",
+        "projectUniqueName": "C:\\Users\\Rushikesh.Shelar\\OneDrive - zeuslearning.com\\Desktop\\Rushikesh\\hodder-training\\dotnet\\ContosoPizza\\ContosoPizza.csproj",
         "projectName": "ContosoPizza",
-        "projectPath": "C:\\Users\\Rushikesh.Shelar\\OneDrive - zeuslearning.com\\Desktop\\Rushikesh\\team hodder\\ContosoPizza\\ContosoPizza.csproj",
+        "projectPath": "C:\\Users\\Rushikesh.Shelar\\OneDrive - zeuslearning.com\\Desktop\\Rushikesh\\hodder-training\\dotnet\\ContosoPizza\\ContosoPizza.csproj",
         "packagesPath": "C:\\Users\\Rushikesh.Shelar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Rushikesh.Shelar\\OneDrive - zeuslearning.com\\Desktop\\Rushikesh\\team hodder\\ContosoPizza\\obj\\",
+        "outputPath": "C:\\Users\\Rushikesh.Shelar\\OneDrive - zeuslearning.com\\Desktop\\Rushikesh\\hodder-training\\dotnet\\ContosoPizza\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -46,6 +46,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.66, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[6.1.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"
