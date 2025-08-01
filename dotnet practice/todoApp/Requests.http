@@ -1,0 +1,27 @@
+@TodoApp_HostAddress = http://localhost:5031
+
+GET {{TodoApp_HostAddress}}/todos/
+Content-Type: text/plain
+
+###
+
+POST {{TodoApp_HostAddress}}/todos/
+Content-Type: application/json
+
+{
+    "id": 2,
+    "name": "CRead the Concepts of Data Warehosuing",
+    "dueDate": "2025-08-02",
+    "isCompleted": false
+}
+
+###
+
+GET {{TodoApp_HostAddress}}/todos/2
+
+###
+
+DELETE {{TodoApp_HostAddress}}/todos/2
+
+###
+GET {{TodoApp_HostAddress}}/tasks/2

@@ -1,0 +1,27 @@
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\bin\Debug\net8.0\appsettings.json
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\bin\Debug\net8.0\global.json
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\bin\Debug\net8.0\dotnet practice.exe
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\bin\Debug\net8.0\dotnet practice.deps.json
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\bin\Debug\net8.0\dotnet practice.runtimeconfig.json
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\bin\Debug\net8.0\dotnet practice.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\bin\Debug\net8.0\dotnet practice.pdb
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\dotnet practice.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\dotnet practice.AssemblyInfoInputs.cache
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\dotnet practice.AssemblyInfo.cs
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\dotnet practice.csproj.CoreCompileInputs.cache
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\dotnet practice.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\dotnet practice.sourcelink.json
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\staticwebassets\msbuild.dotnet practice.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\staticwebassets\msbuild.build.dotnet practice.props
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.dotnet practice.props
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.dotnet practice.props
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\scopedcss\bundle\dotnet practice.styles.css
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\dotnet practice.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\refint\dotnet practice.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\dotnet practice.pdb
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\dotnet practice.genruntimeconfig.cache
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet practice\todoApp\obj\Debug\net8.0\ref\dotnet practice.dll
