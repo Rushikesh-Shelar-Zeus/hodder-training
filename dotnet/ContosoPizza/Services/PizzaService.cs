@@ -2,6 +2,7 @@ using ContosoPizza.Models;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Dapper;
+using System.Data.Common;
 
 namespace ContosoPizza.Services;
 
@@ -23,8 +24,8 @@ public class PizzaService : IPizzaService
         try
         {
             using var db = Connection;
-            string sql = "SELECT * FROM Pizzas";
-            return await db.QueryAsync<Pizza>(sql);
+            string storedProcedure = "GetAllPizzas";
+            return await db.QueryAsync<Pizza>(storedProcedure, commandType: CommandType.StoredProcedure);
         }
         catch (SqlException ex)
         {
@@ -38,8 +39,10 @@ public class PizzaService : IPizzaService
         try
         {
             using var db = Connection;
-            string sql = "SELECT * FROM Pizzas WHERE Id = @Id";
-            return await db.QueryFirstOrDefaultAsync<Pizza>(sql, new { Id = id });
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id, DbType.Int32);
+            string storedProcedure = "GetPizzaById";
+            return await db.QueryFirstOrDefaultAsync<Pizza>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
         catch (SqlException ex)
         {
@@ -53,10 +56,17 @@ public class PizzaService : IPizzaService
         try
         {
             using var db = Connection;
-            string sql = "INSERT INTO Pizzas (Name, IsGlutenFree) OUTPUT INSERTED.Id VALUES (@Name, @IsGlutenFree)";
-            var id = await db.ExecuteScalarAsync<int>(sql, pizza);
-            pizza.Id = id; 
-            return id;
+            var parameters = new DynamicParameters();
+            parameters.Add("@Name", pizza.Name, DbType.String);
+            parameters.Add("@IsGlutenFree", pizza.IsGlutenFree, DbType.Boolean);
+
+            parameters.Add("@Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            string storedProcedure = "AddPizza";
+            await db.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+
+            int newPizzaId = parameters.Get<int>("@Id");
+            pizza.Id = newPizzaId;
+            return newPizzaId;
         }
         catch (SqlException ex)
         {
@@ -70,9 +80,13 @@ public class PizzaService : IPizzaService
         try
         {
             using var db = Connection;
-            string sql = "UPDATE Pizzas SET Name = @Name, IsGlutenFree = @IsGlutenFree WHERE Id = @Id";
-            var parameters = new { pizza.Name, pizza.IsGlutenFree, Id = id };
-            await db.ExecuteAsync(sql, parameters);
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id, DbType.Int32);
+            parameters.Add("@Name", pizza.Name, DbType.String);
+            parameters.Add("@IsGlutenFree", pizza.IsGlutenFree, DbType.Boolean);
+            string storedProcedure = "UpdatePizza";
+
+            await db.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
         catch (SqlException ex)
         {
@@ -86,8 +100,10 @@ public class PizzaService : IPizzaService
         try
         {
             using var db = Connection;
-            string sql = "DELETE FROM Pizzas WHERE Id = @Id";
-            await db.ExecuteAsync(sql, new { Id = id });
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id, DbType.Int32);
+            string storedProcedure = "DeletePizza";
+            await db.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
         catch(SqlException ex)
         {

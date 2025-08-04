@@ -43,7 +43,7 @@ public class PizzaController : ControllerBase
             var pizza = await _pizzaService.GetPizzaByIdAsync(id);
             if (pizza is null)
             {
-                return NotFound();
+                return NotFound($"Pizza with Id {id} not found.");
             }
             return Ok(pizza);
         }

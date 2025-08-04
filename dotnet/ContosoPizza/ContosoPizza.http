@@ -9,21 +9,21 @@ POST {{ContosoPizza_HostAddress}}/pizza/
 Content-Type: application/json
 
 {
-    "name": "Chicken Sausage",
+    "name": "Pepperoni Margherita",
     "isGlutenFree": false
 }
 
 ###
 
-PUT {{ContosoPizza_HostAddress}}/pizza/4
+PUT {{ContosoPizza_HostAddress}}/pizza/8
 Content-Type: application/json
 
 {
-    "name": "Spicy Volcano",
+    "name": "Vegetarian Delight",
     "isGlutenFree": true
 }
 
 ###
 
-DELETE {{ContosoPizza_HostAddress}}/pizza/5
+DELETE {{ContosoPizza_HostAddress}}/pizza/11
 Content-Type: application/json
