@@ -7,7 +7,7 @@ public interface IPizzaService
 {
     Task<IEnumerable<Pizza>> GetAllPizzasAsync();
     Task<Pizza?> GetPizzaByIdAsync(int id);
-    Task AddPizzaAsync(Pizza pizza);
+    Task<int?> AddPizzaAsync(Pizza pizza);
     Task UpdatePizzaAsync(int id, Pizza pizza);
     Task DeletePizzaAsync(int id);
 }

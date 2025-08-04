@@ -1,10 +1,5 @@
 @ContosoPizza_HostAddress = http://localhost:5044
 
-GET {{ContosoPizza_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
-
 GET {{ContosoPizza_HostAddress}}/pizza/
 Accept: application/json
 
@@ -14,21 +9,21 @@ POST {{ContosoPizza_HostAddress}}/pizza/
 Content-Type: application/json
 
 {
-    "name": "Mother's Receipe",
-    "isGlutenFree": true
+    "name": "Chicken Sausage",
+    "isGlutenFree": false
 }
 
 ###
 
-PUT {{ContosoPizza_HostAddress}}/pizza/6
+PUT {{ContosoPizza_HostAddress}}/pizza/4
 Content-Type: application/json
 
 {
-    "name": 10,
+    "name": "Spicy Volcano",
     "isGlutenFree": true
 }
 
 ###
 
-DELETE {{ContosoPizza_HostAddress}}/pizza/4
+DELETE {{ContosoPizza_HostAddress}}/pizza/5
 Content-Type: application/json
