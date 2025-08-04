@@ -5,6 +5,12 @@ Accept: application/json
 
 ###
 
+
+GET {{ContosoPizza_HostAddress}}/pizza/133
+Accept: application/json
+
+###
+
 POST {{ContosoPizza_HostAddress}}/pizza/
 Content-Type: application/json
 
@@ -15,15 +21,15 @@ Content-Type: application/json
 
 ###
 
-PUT {{ContosoPizza_HostAddress}}/pizza/8
+PUT {{ContosoPizza_HostAddress}}/pizza/12
 Content-Type: application/json
 
 {
-    "name": "Vegetarian Delight",
-    "isGlutenFree": true
+    "name": "Vegetarian",
+    "isGlutenFree": false
 }
 
 ###
 
-DELETE {{ContosoPizza_HostAddress}}/pizza/11
+DELETE {{ContosoPizza_HostAddress}}/pizza/1002
 Content-Type: application/json

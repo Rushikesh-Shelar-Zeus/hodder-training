@@ -1,9 +1,11 @@
+using ContosoPizza.Repositories;
 using ContosoPizza.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+builder.Services.AddScoped<IPizzaRepository, PizzaRepository>();
 builder.Services.AddScoped<IPizzaService, PizzaService>();
 
 builder.Services.AddControllers();
