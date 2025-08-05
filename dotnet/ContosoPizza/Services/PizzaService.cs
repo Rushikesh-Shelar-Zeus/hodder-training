@@ -1,6 +1,7 @@
-using ContosoPizza.Dtos;
 using ContosoPizza.Models;
-using ContosoPizza.Repositories;
+using ContosoPizza.Dtos.Pizza;
+using ContosoPizza.Services.Interfaces;
+using ContosoPizza.Repositories.Interfaces;
 
 namespace ContosoPizza.Services;
 

@@ -1,6 +1,6 @@
 using ContosoPizza.Models;
 
-namespace ContosoPizza.Repositories;
+namespace ContosoPizza.Repositories.Interfaces;
 
 public interface IPizzaRepository
 {

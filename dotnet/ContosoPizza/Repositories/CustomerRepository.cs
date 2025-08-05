@@ -7,13 +7,12 @@ using ContosoPizza.Repositories.Interfaces;
 
 namespace ContosoPizza.Repositories;
 
-public class PizzaRepository : IPizzaRepository
+public class CustomerRepository : ICustomerRepository
 {
     private readonly IConfiguration _configuration;
+    private readonly ILogger<CustomerRepository> _logger;
 
-    private readonly ILogger<PizzaRepository> _logger;
-
-    public PizzaRepository(IConfiguration configuration, ILogger<PizzaRepository> logger)
+    public CustomerRepository(IConfiguration configuration, ILogger<CustomerRepository> logger)
     {
         _configuration = configuration;
         _logger = logger;
@@ -22,53 +21,53 @@ public class PizzaRepository : IPizzaRepository
     private IDbConnection Connection =>
         new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-    public async Task<IEnumerable<Pizza>> GetAllAsync()
+    public async Task<IEnumerable<Customer>> GetAllAsync()
     {
         try
         {
             using var db = Connection;
-            string storedProcedure = "Pizza_GetAll";
+            string storedProcedure = "Customer_GetAll";
 
-            return await db.QueryAsync<Pizza>(storedProcedure, commandType: CommandType.StoredProcedure);
+            return await db.QueryAsync<Customer>(storedProcedure, commandType: CommandType.StoredProcedure);
         }
         catch (SqlException ex)
         {
-            _logger.LogError(ex, "[AllPizzasAsync] Error retrieving pizzas from database.");
+            _logger.LogError(ex, "[GetALlCustomersAsync] Error retrieving pizzas from database.");
             throw;
         }
     }
 
-    public async Task<Pizza?> GetByIdAsync(int id)
+    public async Task<Customer?> GetByIdAsync(int id)
     {
         try
         {
             using var db = Connection;
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id, DbType.Int32);
-            string storedProcedure = "Pizza_GetById";
 
-            return await db.QueryFirstOrDefaultAsync<Pizza>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+            string storedProcedure = "Customer_GetById";
+            return await db.QueryFirstOrDefaultAsync<Customer>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
         catch (SqlException ex)
         {
-            _logger.LogError(ex, "[PizzaByIdAsync] Error retrieving pizza with Id {id} from database.", id);
+            _logger.LogError(ex, "[CustomerByIdAsync] Error retrieving pizza with Id {id} from database.", id);
             throw;
         }
     }
 
-    public async Task<int> CreateAsync(Pizza pizza)
+    public async Task<int> CreateAsync(Customer customer)
     {
         try
         {
             using var db = Connection;
             var parameters = new DynamicParameters();
-            parameters.Add("@Name", pizza.Name, DbType.String);
-            parameters.Add("@IsGlutenFree", pizza.IsGlutenFree, DbType.Boolean);
-            parameters.Add("@Price", pizza.Price, DbType.Decimal);
+            parameters.Add("@Name", customer.Name, DbType.String);
+            parameters.Add("@Email", customer.Email, DbType.String);
+            parameters.Add("@PhoneNumber", customer.PhoneNumber, DbType.String);
+            parameters.Add("@Address", customer.Address, DbType.String);
 
             parameters.Add("@NewId", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            
-            string storedProcedure = "Pizza_Create";
+            string storedProcedure = "Customer_Create";
             await db.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
 
             return parameters.Get<int>("@NewId");
@@ -80,27 +79,28 @@ public class PizzaRepository : IPizzaRepository
         }
     }
 
-    public async Task<bool> UpdateAsync(int id, Pizza pizza)
+    public async Task<bool> UpdateAsync(int id, Customer customer)
     {
         try
         {
             using var db = Connection;
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id, DbType.Int32);
-            parameters.Add("@Name", pizza.Name, DbType.String);
-            parameters.Add("@IsGlutenFree", pizza.IsGlutenFree, DbType.Boolean);
-            parameters.Add("@Price", pizza.Price, DbType.Decimal);
+            parameters.Add("@Name", customer.Name, DbType.String);
+            parameters.Add("@Email", customer.Email, DbType.String);
+            parameters.Add("@PhoneNumber", customer.PhoneNumber, DbType.String);
+            parameters.Add("@Address", customer.Address, DbType.String);
+
             parameters.Add("@RowsAffected", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            string storedProcedure = "Pizza_Update";
-
+            string storedProcedure = "Customer_Update";
             await db.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
-            
+
             return parameters.Get<int>("@RowsAffected") > 0;
         }
         catch (SqlException ex)
         {
-            _logger.LogError(ex, "[UpdatePizzaAsync] Error Updating pizza with Id {id} in Database.", id);
+            _logger.LogError(ex, "[UpdateCustomerAsync] Error updating customer with Id {id} in database.", id);
             throw;
         }
     }
@@ -114,14 +114,14 @@ public class PizzaRepository : IPizzaRepository
             parameters.Add("@Id", id, DbType.Int32);
             parameters.Add("@RowsAffected", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-            string storedProcedure = "Pizza_Delete";
+            string storedProcedure = "Customer_Delete";
             await db.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
 
             return parameters.Get<int>("@RowsAffected") > 0;
         }
         catch (SqlException ex)
         {
-            _logger.LogError(ex, "[DeletePizzaAsync] Error Deleting pizza with Id {id} in Database.", id);
+            _logger.LogError(ex, "[DeleteCustomerAsync] Error deleting customer with Id {id} from database.", id);
             throw;
         }
     }

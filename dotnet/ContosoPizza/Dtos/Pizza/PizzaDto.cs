@@ -1,4 +1,4 @@
-namespace ContosoPizza.Dtos;
+namespace ContosoPizza.Dtos.Pizza;
 
 public class PizzaDto
 {

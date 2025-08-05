@@ -1,6 +1,6 @@
-namespace ContosoPizza.Models;
-
 using System.ComponentModel.DataAnnotations;
+
+namespace ContosoPizza.Models;
 
 public class Order
 {

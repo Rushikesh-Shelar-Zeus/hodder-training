@@ -1,7 +1,6 @@
-using ContosoPizza.Dtos;
-using ContosoPizza.Models;
+using ContosoPizza.Dtos.Pizza;
 
-namespace ContosoPizza.Services;
+namespace ContosoPizza.Services.Interfaces;
 
 public interface IPizzaService
 {

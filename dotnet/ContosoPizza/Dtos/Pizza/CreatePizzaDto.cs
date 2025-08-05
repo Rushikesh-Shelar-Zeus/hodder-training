@@ -1,6 +1,6 @@
-namespace ContosoPizza.Dtos;
-
 using System.ComponentModel.DataAnnotations;
+
+namespace ContosoPizza.Dtos.Pizza;
 
 public class CreatePizzaDto
 {
