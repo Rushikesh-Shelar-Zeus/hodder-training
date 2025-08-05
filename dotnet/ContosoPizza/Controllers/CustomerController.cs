@@ -78,7 +78,7 @@ public class CustomerController : ControllerBase
     }
 
     //DELETE: /api/customer/5
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var success = await _customerService.DeleteAsync(id);

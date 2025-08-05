@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 using ContosoPizza.Services.Interfaces;
-using ContosoPizza.Dtos;
+using ContosoPizza.Dtos.Pizza;
 
 namespace ContosoPizza.Controllers;
 
