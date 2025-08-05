@@ -1,4 +1,4 @@
-@ContosoPizza_HostAddress = http://localhost:5044
+@ContosoPizza_HostAddress = http://localhost:5044/api
 
 GET {{ContosoPizza_HostAddress}}/pizza/
 Accept: application/json
@@ -6,7 +6,7 @@ Accept: application/json
 ###
 
 
-GET {{ContosoPizza_HostAddress}}/pizza/133
+GET {{ContosoPizza_HostAddress}}/pizza/1
 Accept: application/json
 
 ###

@@ -1,7 +1,5 @@
+using ContosoPizza.Dtos;
 using ContosoPizza.Models;
-using System.Data;
-using Microsoft.Data.SqlClient;
-using Dapper;
 using ContosoPizza.Repositories;
 
 namespace ContosoPizza.Services;
@@ -9,17 +7,107 @@ namespace ContosoPizza.Services;
 public class PizzaService : IPizzaService
 {
     private readonly IPizzaRepository _pizzaRepository;
+    private readonly ILogger<PizzaService> _logger;
     public PizzaService(IPizzaRepository pizzaRepository, ILogger<PizzaService> logger)
     {
         _pizzaRepository = pizzaRepository;
+        _logger = logger;
     }
 
-    public async Task<IEnumerable<Pizza>> GetAllPizzasAsync() => await _pizzaRepository.GetAllAsync();
+    public async Task<IEnumerable<PizzaDto>> GetAllPizzasAsync()
+    {
+        try
+        {
+            var pizzas = await _pizzaRepository.GetAllAsync();
+            return pizzas.Select(p => new PizzaDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                IsGlutenFree = p.IsGlutenFree
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching all pizzas");
+            return [];
+        }
+    }
 
-    public async Task<Pizza?> GetPizzaByIdAsync(int id) => await _pizzaRepository.GetByIdAsync(id);
+    public async Task<PizzaDto?> GetPizzaByIdAsync(int id)
+    {
+        try
+        {
+            var pizza = await _pizzaRepository.GetByIdAsync(id);
 
-    public async Task<int> AddPizzaAsync(Pizza pizza) => await _pizzaRepository.AddAsync(pizza);
-    public async Task UpdatePizzaAsync(int id, Pizza pizza) => await _pizzaRepository.UpdateAsync(id, pizza);
+            if (pizza is null) return null;
 
-    public async Task DeletePizzaAsync(int id) => await _pizzaRepository.DeleteAsync(id);
+            return new PizzaDto
+            {
+                Id = pizza.Id,
+                Name = pizza.Name,
+                Price = pizza.Price,
+                IsGlutenFree = pizza.IsGlutenFree
+            };
+        }
+        catch (Exception ex)
+        {
+
+            _logger.LogError(ex, "Error retrieving pizza with ID {id}", id);
+            return null;
+        }
+    }
+    public async Task<int> CreatePizzaAsync(CreatePizzaDto dto)
+    {
+        try
+        {
+            var newPizza = new Pizza
+            {
+                Name = dto.Name,
+                Price = dto.Price,
+                IsGlutenFree = dto.IsGlutenFree
+            };
+
+            return await _pizzaRepository.CreateAsync(newPizza);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating new pizza");
+            return -1;
+        }
+    }
+
+    public async Task<bool> UpdatePizzaAsync(int id, UpdatePizzaDto dto)
+    {
+        try
+        {
+            var pizza = new Pizza
+            {
+                Id = id,
+                Name = dto.Name,
+                Price = dto.Price,
+                IsGlutenFree = dto.IsGlutenFree
+            };
+
+            return await _pizzaRepository.UpdateAsync(id, pizza);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error updating pizza with ID {id}", id);
+            return false;
+        }
+    }
+
+    public async Task<bool> DeletePizzaAsync(int id)
+    {
+        try
+        {
+            return await _pizzaRepository.DeleteAsync(id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error deleting pizza with ID {id}", id);
+            return false;
+        }
+    }
 }

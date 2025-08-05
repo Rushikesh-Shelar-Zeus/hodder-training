@@ -1,0 +1,14 @@
+namespace ContosoPizza.Dtos;
+
+using System.ComponentModel.DataAnnotations;
+
+public class CreatePizzaDto
+{
+    [Required]
+    public string? Name { get; set; } = string.Empty;
+    
+    [Required, Range(0.01, 10000)]
+    public decimal Price { get; set; }
+    
+    public bool IsGlutenFree { get; set; } = false;
+}

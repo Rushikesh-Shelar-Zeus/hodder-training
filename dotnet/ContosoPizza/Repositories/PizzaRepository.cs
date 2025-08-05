@@ -1,7 +1,8 @@
 using System.Data;
-using ContosoPizza.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
+
+using ContosoPizza.Models;
 
 namespace ContosoPizza.Repositories;
 
@@ -25,7 +26,8 @@ public class PizzaRepository : IPizzaRepository
         try
         {
             using var db = Connection;
-            string storedProcedure = "GetAllPizzas";
+            string storedProcedure = "Pizza_GetAll";
+
             return await db.QueryAsync<Pizza>(storedProcedure, commandType: CommandType.StoredProcedure);
         }
         catch (SqlException ex)
@@ -42,7 +44,8 @@ public class PizzaRepository : IPizzaRepository
             using var db = Connection;
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id, DbType.Int32);
-            string storedProcedure = "GetPizzaById";
+            string storedProcedure = "Pizza_GetById";
+
             return await db.QueryFirstOrDefaultAsync<Pizza>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
         catch (SqlException ex)
@@ -52,7 +55,7 @@ public class PizzaRepository : IPizzaRepository
         }
     }
 
-    public async Task<int> AddAsync(Pizza pizza)
+    public async Task<int> CreateAsync(Pizza pizza)
     {
         try
         {
@@ -60,23 +63,23 @@ public class PizzaRepository : IPizzaRepository
             var parameters = new DynamicParameters();
             parameters.Add("@Name", pizza.Name, DbType.String);
             parameters.Add("@IsGlutenFree", pizza.IsGlutenFree, DbType.Boolean);
+            parameters.Add("@Price", pizza.Price, DbType.Decimal);
 
-            parameters.Add("@Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            string storedProcedure = "AddPizza";
+            parameters.Add("@NewId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            
+            string storedProcedure = "Pizza_Create";
             await db.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
 
-            int newPizzaId = parameters.Get<int>("@Id");
-            pizza.Id = newPizzaId;
-            return newPizzaId;
+            return parameters.Get<int>("@NewId");
         }
         catch (SqlException ex)
         {
-            _logger.LogError(ex, $"[AddPizzaAsync] Error Adding pizza to Database.");
+            _logger.LogError(ex, $"[CreatePizzaAsync] Error Adding pizza to Database.");
             throw;
         }
     }
 
-    public async Task UpdateAsync(int id, Pizza pizza)
+    public async Task<bool> UpdateAsync(int id, Pizza pizza)
     {
         try
         {
@@ -85,9 +88,14 @@ public class PizzaRepository : IPizzaRepository
             parameters.Add("@Id", id, DbType.Int32);
             parameters.Add("@Name", pizza.Name, DbType.String);
             parameters.Add("@IsGlutenFree", pizza.IsGlutenFree, DbType.Boolean);
-            string storedProcedure = "UpdatePizza";
+            parameters.Add("@Price", pizza.Price, DbType.Decimal);
+            parameters.Add("@RowsAffected", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            string storedProcedure = "Pizza_Update";
 
             await db.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+            
+            return parameters.Get<int>("@RowsAffected") > 0;
         }
         catch (SqlException ex)
         {
@@ -96,15 +104,19 @@ public class PizzaRepository : IPizzaRepository
         }
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
         try
         {
             using var db = Connection;
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id, DbType.Int32);
-            string storedProcedure = "DeletePizza";
+            parameters.Add("@RowsAffected", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            string storedProcedure = "Pizza_Delete";
             await db.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+
+            return parameters.Get<int>("@RowsAffected") > 0;
         }
         catch (SqlException ex)
         {
