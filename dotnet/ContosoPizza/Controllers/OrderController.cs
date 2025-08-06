@@ -53,4 +53,34 @@ public class OrderController : ControllerBase
         var createdOrder = await _orderService.GetOrderByIdAsync(newOrderId);
         return CreatedAtAction(nameof(GetOrderById), new { id = newOrderId }, createdOrder);
     }
+
+    //GET: /api/order/paged
+    [HttpGet("paged")]
+    public async Task<IActionResult> GetPagedOrders(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] string sortBy = "Date",
+        [FromQuery] string sortDirection = "asc")
+    {
+        try
+        {
+            if (pageNumber <= 0 || pageSize <= 0)
+            {
+                return BadRequest("Page number and page size must be greater than 0.");
+            }
+
+            var orders = await _orderService.GetPagedOrdersAsync(pageNumber, pageSize, sortBy, sortDirection);
+
+            if (!orders.Any())
+            {
+                return NotFound("No orders found for the given page.");
+            }
+
+            return Ok(orders);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "An error occurred while retrieving orders.");
+        }
+    }
 }

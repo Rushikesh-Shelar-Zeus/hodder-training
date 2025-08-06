@@ -117,4 +117,27 @@ public class OrderRepository : IOrderRepository
             throw new Exception("Failed to retrieve all orders.");
         }
     }
+
+    public async Task<IEnumerable<Order>> GetPagedAsync(int pageNumber, int pageSize, string? sortBy = null, string sortDirection = "asc")
+    {
+        try
+        {
+            using var db = Connection;
+            var parameters = new DynamicParameters();
+            parameters.Add("@PageNumber", pageNumber);
+            parameters.Add("@PageSize", pageSize);
+            parameters.Add("@SortBy", sortBy ?? "Date");
+            parameters.Add("@SortDirection", sortDirection);
+
+            return await db.QueryAsync<Order>(
+                "Order_GetPaged",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
+        }
+        catch (SqlException ex)
+        {
+            throw new Exception("Error retrieving paged orders", ex);
+        }
+    }
 }
