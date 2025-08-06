@@ -1,0 +1,34 @@
+header {
+    background: gray;
+
+    .logo {
+        font-weight: bold;
+    }
+
+    nav {
+        justify-self: right;
+    
+        ul {
+            list-style-type: none;
+            margin: 0; padding: 0;
+
+            li {
+                float: left;
+
+                a {
+                    padding: 1.5em;
+                    text-transform: uppercase;
+                    font-size: .8em;
+                    width: 20%;
+                    height: 20px;
+
+                    &:hover {
+                        background: darkgray;
+                        color: blue;
+                        transition: background 0.3s ease-in-out;
+                    }
+                }
+            }
+        }
+    }
+}

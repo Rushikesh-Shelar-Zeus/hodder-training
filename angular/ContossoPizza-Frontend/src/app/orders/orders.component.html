@@ -1,0 +1,6 @@
+<h2>All Orders List</h2>
+<ul>
+  <li *ngFor="let order of orders">
+    {{ order.customerName }} - ₹{{ order.totalAmount }} - {{ order.orderDate | date:'short' }}
+  </li>
+</ul>
