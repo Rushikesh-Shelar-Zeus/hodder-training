@@ -51,7 +51,7 @@ public class CustomerRepository : ICustomerRepository
         catch (SqlException ex)
         {
             _logger.LogError(ex, "[CustomerByIdAsync] Error retrieving pizza with Id {id} from database.", id);
-            throw;
+            return null;
         }
     }
 
