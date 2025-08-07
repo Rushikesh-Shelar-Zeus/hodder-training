@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 
-using ContosoPizza.Services.Interfaces;
 using ContosoPizza.Dtos.Pizza;
+using ContosoPizza.Dtos.Pagination;
+using ContosoPizza.Services.Interfaces;
 
 namespace ContosoPizza.Controllers;
 
@@ -16,11 +17,24 @@ public class PizzaController : ControllerBase
 
     }
 
-    //GET: /api/pizza
-    [HttpGet]
+    //GET: /api/pizza/all
+    [HttpGet("all")]
     public async Task<ActionResult<IEnumerable<PizzaDto>>> GetAllPizzas()
     {
         var pizzas = await _pizzaService.GetAllPizzasAsync();
+        return Ok(pizzas);
+    }
+
+
+    //GET: /api/pizza
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<PizzaDto>>> GetAllPizzas([FromQuery] PagedQueryParams queryParams)
+    {
+        if (queryParams.PageNumber < 1 || queryParams.PageSize < 1)
+        {
+            return BadRequest(new { Message = "Page number and page size must be greater than zero." });
+        }
+        var pizzas = await _pizzaService.GetPagedPizzasAsync(queryParams);
         return Ok(pizzas);
     }
 

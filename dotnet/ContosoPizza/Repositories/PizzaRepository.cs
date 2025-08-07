@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 
 using ContosoPizza.Models;
 using ContosoPizza.Repositories.Interfaces;
+using ContosoPizza.Dtos.Pagination;
 
 namespace ContosoPizza.Repositories;
 
@@ -67,7 +68,7 @@ public class PizzaRepository : IPizzaRepository
             parameters.Add("@Price", pizza.Price, DbType.Decimal);
 
             parameters.Add("@NewId", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            
+
             string storedProcedure = "Pizza_Create";
             await db.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
 
@@ -95,7 +96,7 @@ public class PizzaRepository : IPizzaRepository
             string storedProcedure = "Pizza_Update";
 
             await db.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
-            
+
             return parameters.Get<int>("@RowsAffected") > 0;
         }
         catch (SqlException ex)
@@ -122,6 +123,39 @@ public class PizzaRepository : IPizzaRepository
         catch (SqlException ex)
         {
             _logger.LogError(ex, "[DeletePizzaAsync] Error Deleting pizza with Id {id} in Database.", id);
+            throw;
+        }
+    }
+
+    public async Task<PagedResult<Pizza>> GetPagedResultAsync(PagedQueryParams queryParams)
+    {
+        try
+        {
+            using var db = Connection;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@PageNumber", queryParams.PageNumber, DbType.Int32);
+            parameters.Add("@PageSize", queryParams.PageSize, DbType.Int32);
+            parameters.Add("@SortBy", queryParams.SortBy, DbType.String);
+            parameters.Add("@SortDirection", queryParams.SortDirection, DbType.String);
+
+            string storedProcedure = "Pizza_GetPagedSorted";
+            using var multi = await db.QueryMultipleAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+
+            var items = (await multi.ReadAsync<Pizza>()).ToList();
+            var totaCount = await multi.ReadFirstAsync<int>();
+
+            return new PagedResult<Pizza>
+            {
+                Items = items,
+                TotalCount = totaCount,
+                PageNumber = queryParams.PageNumber,
+                PageSize = queryParams.PageSize
+            };
+        }
+        catch (SqlException ex)
+        {
+            _logger.LogError(ex, "[GetPagedAsync] Erro");
             throw;
         }
     }

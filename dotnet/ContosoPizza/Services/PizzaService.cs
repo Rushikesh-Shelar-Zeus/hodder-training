@@ -2,6 +2,7 @@ using ContosoPizza.Models;
 using ContosoPizza.Dtos.Pizza;
 using ContosoPizza.Services.Interfaces;
 using ContosoPizza.Repositories.Interfaces;
+using ContosoPizza.Dtos.Pagination;
 
 namespace ContosoPizza.Services;
 
@@ -109,6 +110,39 @@ public class PizzaService : IPizzaService
         {
             _logger.LogError(ex, "Error deleting pizza with ID {id}", id);
             return false;
+        }
+    }
+
+    public async Task<PagedResult<PizzaDto>> GetPagedPizzasAsync(PagedQueryParams queryParams)
+    {
+        try
+        {
+            var pagedResult = await _pizzaRepository.GetPagedResultAsync(queryParams);
+
+            return new PagedResult<PizzaDto>
+            {
+                Items = pagedResult.Items.Select(p => new PizzaDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    IsGlutenFree = p.IsGlutenFree
+                }),
+                TotalCount = pagedResult.TotalCount,
+                PageNumber = queryParams.PageNumber,
+                PageSize = queryParams.PageSize
+            };
+        }
+        catch (System.Exception)
+        {
+            _logger.LogError("Error fetching paged pizzas with query params {@queryParams}", queryParams);
+            return new PagedResult<PizzaDto>
+            {
+                Items = [],
+                TotalCount = 0,
+                PageNumber = queryParams.PageNumber,
+                PageSize = queryParams.PageSize
+            };
         }
     }
 }

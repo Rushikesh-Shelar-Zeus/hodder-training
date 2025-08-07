@@ -2,6 +2,7 @@ using ContosoPizza.Models;
 using ContosoPizza.Dtos.Orders;
 using ContosoPizza.Services.Interfaces;
 using ContosoPizza.Repositories.Interfaces;
+using ContosoPizza.Dtos.Pagination;
 
 namespace ContosoPizza.Services;
 
@@ -173,46 +174,30 @@ public class OrderService : IOrderService
         }
     }
 
-    public async Task<IEnumerable<OrderDto>> GetPagedOrdersAsync(int pageNumber, int pageSize, string? sortBy = null, string sortDirection = "asc")
+    public async Task<PagedResult<OrderDto>> GetPagedOrdersAsync(PagedQueryParams queryParams)
     {
         try
         {
-            var orders = await _orderRepo.GetPagedAsync(pageNumber, pageSize, sortBy, sortDirection);
-            var orderDtos = new List<OrderDto>();
+            var pagedResult = await _orderRepo.GetPagedResultAsync(queryParams);
 
-            foreach (var order in orders)
+            return new PagedResult<OrderDto>
             {
-                var orderItems = await _orderRepo.GetItemsByOrderIdAsync(order.Id);
-                var customer = await _customerRepo.GetByIdAsync(order.CustomerId);
-
-                if (customer is null)
-                {
-                    _logger.LogWarning("Customer with ID {CustomerId} not found for order {OrderId}", order.CustomerId, order.Id);
-                    throw new Exception($"Customer with ID {order.CustomerId} not found for order {order.Id}");
-                }
-
-                orderDtos.Add(new OrderDto
-                {
-                    Id = order.Id,
-                    CustomerName = customer.Name,
-                    OrderDate = order.OrderDate,
-                    TotalAmount = order.TotalAmount,
-                    OrderItems = orderItems.Select(oi => new OrderItemDto
-                    {
-                        PizzaId = oi.PizzaId,
-                        PizzaName = oi.Pizza?.Name!,
-                        Quantity = oi.Quantity,
-                        UnitPrice = oi.UnitPrice,
-                    }).ToList()
-                });
-            }
-
-            return orderDtos;
+                Items = pagedResult.Items,
+                TotalCount = pagedResult.TotalCount,
+                PageNumber = queryParams.PageNumber,
+                PageSize = queryParams.PageSize
+            };
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving paged orders");
-            return [];
+            _logger.LogError(ex, "Error fetching paged pizzas with query params {@queryParams}", queryParams);
+            return new PagedResult<OrderDto>
+            {
+                Items = [],
+                TotalCount = 0,
+                PageNumber = queryParams.PageNumber,
+                PageSize = queryParams.PageSize
+            };
         }
     }
 }

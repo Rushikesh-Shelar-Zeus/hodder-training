@@ -4,6 +4,8 @@ using Microsoft.Data.SqlClient;
 
 using ContosoPizza.Repositories.Interfaces;
 using ContosoPizza.Models;
+using ContosoPizza.Dtos.Pagination;
+using ContosoPizza.Dtos.Orders;
 
 namespace ContosoPizza.Repositories;
 
@@ -118,26 +120,36 @@ public class OrderRepository : IOrderRepository
         }
     }
 
-    public async Task<IEnumerable<Order>> GetPagedAsync(int pageNumber, int pageSize, string? sortBy = null, string sortDirection = "asc")
+    public async Task<PagedResult<OrderDto>> GetPagedResultAsync(PagedQueryParams queryParams)
     {
         try
         {
             using var db = Connection;
-            var parameters = new DynamicParameters();
-            parameters.Add("@PageNumber", pageNumber);
-            parameters.Add("@PageSize", pageSize);
-            parameters.Add("@SortBy", sortBy ?? "Date");
-            parameters.Add("@SortDirection", sortDirection);
 
-            return await db.QueryAsync<Order>(
-                "Order_GetPaged",
-                parameters,
-                commandType: CommandType.StoredProcedure
-            );
+            var parameters = new DynamicParameters();
+            parameters.Add("@PageNumber", queryParams.PageNumber, DbType.Int32);
+            parameters.Add("@PageSize", queryParams.PageSize, DbType.Int32);
+            parameters.Add("@SortBy", queryParams.SortBy, DbType.String);
+            parameters.Add("@SortDirection", queryParams.SortDirection, DbType.String);
+
+            string storedProcedure = "Order_GetPagedSorted";
+            using var multi = await db.QueryMultipleAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+
+            var items = (await multi.ReadAsync<OrderDto>()).ToList();
+            var totalCount = await multi.ReadFirstAsync<int>();
+
+            return new PagedResult<OrderDto>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = queryParams.PageNumber,
+                PageSize = queryParams.PageSize
+            };
         }
-        catch (SqlException ex)
+        catch(Exception ex)
         {
-            throw new Exception("Error retrieving paged orders", ex);
+            Console.WriteLine(ex.Message);
+            throw new Exception("Failed to Fetch Paged Orders");
         }
     }
 }
