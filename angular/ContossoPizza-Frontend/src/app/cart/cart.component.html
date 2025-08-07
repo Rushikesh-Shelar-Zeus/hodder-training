@@ -1,0 +1,23 @@
+<div class="cart-container">
+
+
+    <div class="cart">
+        <h2>Your Cart</h2>
+
+        <div *ngIf="cartItems.length === 0" class="cart-empty">
+            <p>Your cart is empty.</p>
+        </div>
+
+
+        <div *ngFor="let item of cartItems" class="cart-item">
+            <span>{{ item.name }}</span>
+            <span>Qty: {{ item.quantity }}</span>
+            <span>₹{{ item.price }}</span>
+            <span>Subtotal: ₹{{ item.subtotal }}</span>
+            <button class="remove-button" (click)="removeItem(item.id)">X</button>
+        </div>
+        <div *ngIf="cartItems.length !== 0" class="cart-total">
+            <p>Cart Total: <span>₹{{ totalAmount }}</span></p>
+        </div>
+    </div>
+</div>

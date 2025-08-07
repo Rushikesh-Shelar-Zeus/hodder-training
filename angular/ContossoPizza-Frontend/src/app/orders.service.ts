@@ -1,29 +1,26 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-export interface Orders {
-  id: number;
-  customerName: string;
-  orderDate: Date;
-  totalAmount: number;
-  orderItems: Array<{
-    pizzaId: number;
-    pizzaName: string;
-    quantity: number;
-    unitPrice: number;
-    totalPrice: number;
-  }>;
-}
+import { Order } from './shared/models/Order';
+import { PagedResult } from './shared/models/Pizza';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
-  private apiUrl = 'http://localhost:5044/api';
+  private apiUrl = 'http://localhost:5044/api/order';
 
   constructor(private http: HttpClient) { }
-  getOrders(): Observable<Orders[]> {
-    return this.http.get<Orders[]>(`${this.apiUrl}/order`);
+  getOrders(pageNumber: number = 1,
+    pageSize: number = 10,
+    sortBy: string = "Date",
+    sortDirection: string = "ASC"): Observable<PagedResult<Order>> {
+    const params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString())
+      .set('sortBy', sortBy)
+      .set('sortDirection', sortDirection);
+
+    return this.http.get<PagedResult<Order>>(this.apiUrl, { params });
   }
 }

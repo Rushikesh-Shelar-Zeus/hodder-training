@@ -8,4 +8,9 @@ import { Component } from '@angular/core';
 export class NavComponent {
   projectName = 'Contosso Pizza';
 
+  menuOpen = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 }
