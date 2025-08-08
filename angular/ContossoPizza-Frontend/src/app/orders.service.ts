@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Order } from './shared/models/Order';
+import { Order, OrderPayload } from './shared/models/Order';
 import { PagedResult } from './shared/models/Pizza';
 
 @Injectable({
@@ -22,5 +22,9 @@ export class OrdersService {
       .set('sortDirection', sortDirection);
 
     return this.http.get<PagedResult<Order>>(this.apiUrl, { params });
+  }
+
+  placeOrder(payload: OrderPayload): Observable<any>{
+    return this.http.post(this.apiUrl, payload);
   }
 }

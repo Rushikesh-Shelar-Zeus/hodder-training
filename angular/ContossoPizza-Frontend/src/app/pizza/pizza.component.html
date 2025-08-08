@@ -26,7 +26,7 @@
       <th>Name</th>
       <th>Price (₹)</th>
       <th>Gluten Free?</th>
-      <th style="text-align: right;">Action</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -35,7 +35,7 @@
       <td>{{ pizza.price }}</td>
       <td>{{ pizza.isGlutenFree }}</td>
       <td style="text-align: right;">
-        <button>Add to Cart</button>
+        <button (click)="addToCart(pizza)">Add to Cart</button>
       </td>
     </tr>
   </tbody>

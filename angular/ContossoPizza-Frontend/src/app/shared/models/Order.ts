@@ -4,3 +4,13 @@ export interface Order {
     orderDate: string;
     totalAmount: number;
 }
+
+export interface OrderItem {
+    pizzaId: number;
+    quantity: number;
+}
+
+export interface OrderPayload {
+    customerId: number;
+    orderItems: OrderItem[];
+}

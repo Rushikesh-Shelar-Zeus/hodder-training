@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PizzaService } from '../pizza.service';
 import { PagedResult, Pizza } from '../shared/models/Pizza';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-pizza',
@@ -15,7 +16,7 @@ export class PizzaComponent implements OnInit {
   sortBy: string = 'Price';
   sortDirection: string = "ASC";
 
-  constructor(private pizzaService: PizzaService) { }
+  constructor(private pizzaService: PizzaService, private cartService: CartService) { }
 
   ngOnInit(): void {
     this.loadPizzas(this.pageNumber, this.pageSize);
@@ -52,8 +53,12 @@ export class PizzaComponent implements OnInit {
     this.loadPizzas(this.pageNumber, this.pageSize);
   }
 
-
   totalPages(): number {
     return Math.ceil(this.totalCount / this.pageSize);
+  }
+
+  addToCart(pizza: any): void {
+    this.cartService.addToCart(pizza);
+    alert(`${pizza.name} added to cart!`);
   }
 }

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CartItem } from '../shared/models/Cart';
+import { CartService } from '../cart.service';
+import { OrderItem, OrderPayload } from '../shared/models/Order';
+import { OrdersService } from '../orders.service';
 
 @Component({
   selector: 'app-cart',
@@ -10,36 +13,66 @@ export class CartComponent implements OnInit {
   cartItems: CartItem[] = []
   totalAmount: number = 0;
 
+  constructor(private cartService: CartService, private orderService: OrdersService) { }
+
   ngOnInit(): void {
-    this.cartItems = [
-      { id: 1, name: 'Margherita', price: 200, quantity: 2, subtotal: 400 },
-      { id: 2, name: 'Pepperoni', price: 250, quantity: 1, subtotal: 250 }
-    ];
-
-    this.updateTotal();
-  }
-
-
-  updateTotal(): void {
-    this.totalAmount = this.cartItems.reduce((total, item) => {
-      return total + (item.price * item.quantity);
-    }, 0);
-    this.saveCartToLocalStorage();
+    this.cartItems = this.cartService.getCart();
+    this.totalAmount = this.cartService.getTotalAmount();
   }
 
   removeItem(id: number): void {
-    this.cartItems = this.cartItems.filter(ci => ci.id !== id);
-    this.updateTotal();
+    this.cartService.removeFromCart(id);
+    this.cartItems = this.cartService.getCart();
+    this.totalAmount = this.cartService.getTotalAmount();
   }
 
-  saveCartToLocalStorage(): void {
-    localStorage.setItem('cart', JSON.stringify(this.cartItems));
+  increaseQuantity(item: CartItem) {
+    this.cartService.increaseQuantity(item);
+    this.updateCart();
   }
 
-  loadCartFromLocalStorage(): void {
-    const data = localStorage.getItem('cart');
-    if (data) {
-      this.cartItems = JSON.parse(data);
+  decreaseQuantity(item: CartItem) {
+    this.cartService.decreaseQuantity(item);
+    if (item.quantity === 1) {
+      this.removeItem(item.id)
     }
+    this.updateCart();
+  }
+
+  updateCart() {
+    this.cartItems.forEach(item => {
+      item.subtotal = Number((item.price * item.quantity).toFixed(2));
+    });
+
+    this.totalAmount = this.cartService.getTotalAmount();
+  }
+
+  placeOrder(): void {
+    //Fake Customer Id (Replace with Authentication Logic)
+    const customerId = 1095;
+
+    const orderItems: OrderItem[] = this.cartItems.map(item => ({
+      pizzaId: item.id,
+      quantity: item.quantity
+    }));
+
+    const payload: OrderPayload = {
+      customerId,
+      orderItems
+    };
+
+    this.orderService.placeOrder(payload).subscribe({
+      next: (response) => {
+        alert("Order Placed SuccessFully");
+        this.cartService.clearCart();
+        this.cartItems = [];
+        this.totalAmount = 0;
+      },
+      error: (err) => {
+        alert('Failed to place order.');
+        console.error(err);
+      }
+    })
+
   }
 }
