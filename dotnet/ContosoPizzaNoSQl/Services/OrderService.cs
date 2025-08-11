@@ -2,6 +2,7 @@ using ContosoPizzaNoSQl.Models;
 using ContosoPizzaNoSQl.Repositories.Interfaces;
 using ContosoPizzaNoSQl.Services.Interfaces;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace ContosoPizzaNoSQl.Services;
 
@@ -53,7 +54,7 @@ public class OrderService : IOrderService
                 CustomerName = customer.Name
             };
             await _orderRepository.CreateAsync(order);
-            return order; 
+            return order;
         }
         catch (Exception ex)
         {
@@ -115,11 +116,11 @@ public class OrderService : IOrderService
         }
     }
 
-    public Task<List<Order>> GetOrdersAsync()
+    public async Task<List<Order>> GetAllOrdersAsync()
     {
         try
         {
-            return _orderRepository.GetAsync();
+            return await _orderRepository.GetAllAsync();
         }
         catch (Exception ex)
         {
@@ -127,15 +128,35 @@ public class OrderService : IOrderService
         }
     }
 
-    public Task<List<Order>> GetOrdersByCustomerIdAsync(string customerId)
+    public async Task<List<Order>> GetOrdersByCustomerIdAsync(string customerId)
     {
         try
         {
-            return _orderRepository.GetByCustomerIdAsync(customerId);
+            return await _orderRepository.GetByCustomerIdAsync(customerId);
         }
         catch (Exception ex)
         {
             throw new InvalidOperationException($"Error getting orders for customer with ID {customerId}", ex);
+        }
+    }
+
+    public Task<List<Order>> GetOrdersAsync(int pageNumber, int pageSize, string sortBy, string order)
+    {
+        try
+        {
+            bool ascending = order.Equals("ASC", StringComparison.OrdinalIgnoreCase);
+            var sortDefinition = sortBy switch
+            {
+                "totalamount" => ascending ? Builders<Order>.Sort.Ascending(o => o.TotalAmount) : Builders<Order>.Sort.Descending(o => o.TotalAmount),
+                "createdat" => ascending ? Builders<Order>.Sort.Ascending(o => o.CreatedAt) : Builders<Order>.Sort.Descending(o => o.CreatedAt),
+                _ => ascending ? Builders<Order>.Sort.Ascending(o => o.CustomerName) : Builders<Order>.Sort.Descending(o => o.CustomerName)
+            };
+
+            return _orderRepository.GetAsync(pageNumber, pageSize, sortDefinition);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error getting orders", ex);
         }
     }
 }

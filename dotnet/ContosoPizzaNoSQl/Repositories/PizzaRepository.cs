@@ -18,7 +18,21 @@ public class PizzaRepository : IPizzaRepository
         _pizzas = database.GetCollection<Pizza>("Pizzas");
     }
 
-    public async Task<List<Pizza>> GetAsync()
+    public async Task<List<Pizza>> GetAsync(int pageNumber, int pageSize, SortDefinition<Pizza> sortDefinition)
+    {
+        if (pageNumber < 1 || pageSize < 1)
+        {
+            throw new ArgumentException("Page number and page size must be greater than zero.");
+        }
+        return await _pizzas
+        .Find(FilterDefinition<Pizza>.Empty)
+        .Sort(sortDefinition)
+        .Skip((pageNumber - 1) * pageSize)
+        .Limit(pageSize)
+        .ToListAsync();
+    }
+
+    public async Task<List<Pizza>> GetAllAsync()
     {
         return await _pizzas.Find(_ => true).ToListAsync();
     }
@@ -44,5 +58,10 @@ public class PizzaRepository : IPizzaRepository
     public Task DeleteAsync(string id)
     {
         return _pizzas.DeleteOneAsync(p => p.Id == id);
+    }
+
+    public async Task<int> CountAsync()
+    {
+        return (int)await _pizzas.CountDocumentsAsync(FilterDefinition<Pizza>.Empty);
     }
 }

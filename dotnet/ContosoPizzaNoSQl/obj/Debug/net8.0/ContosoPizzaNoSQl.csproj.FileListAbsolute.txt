@@ -78,3 +78,13 @@ C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-t
 C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\obj\Debug\net8.0\ContosoPizzaNoSQl.pdb
 C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\obj\Debug\net8.0\ContosoPizzaNoSQl.genruntimeconfig.cache
 C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\obj\Debug\net8.0\ref\ContosoPizzaNoSQl.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\bin\Debug\net8.0\Microsoft.Identity.Abstractions.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Rushikesh.Shelar\OneDrive - zeuslearning.com\Desktop\Rushikesh\hodder-training\dotnet\ContosoPizzaNoSQl\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

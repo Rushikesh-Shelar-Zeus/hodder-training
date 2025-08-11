@@ -10,9 +10,21 @@ public class Customer
     public string Id { get; set; } = string.Empty;
 
     [BsonElement("name")]
+    [BsonRequired]
     public string Name { get; set; } = string.Empty;
+
+    [BsonElement("username")]
+    [BsonRequired]
+    public string? Username { get; set; } = string.Empty;
+
     [BsonElement("email")]
+    [BsonRequired]
     public string Email { get; set; } = string.Empty;
+
+    [BsonElement("password")]
+    [BsonRequired]
+    public string PasswordHash { get; set; } = string.Empty;
+
     [BsonElement("phoneNumber")]
     public string? PhoneNumber { get; set; }
     [BsonElement("address")]

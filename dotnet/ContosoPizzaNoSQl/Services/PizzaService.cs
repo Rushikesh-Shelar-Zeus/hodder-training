@@ -1,6 +1,7 @@
 using ContosoPizzaNoSQl.Models;
 using ContosoPizzaNoSQl.Services.Interfaces;
 using ContosoPizzaNoSQl.Repositories.Interfaces;
+using MongoDB.Driver;
 
 namespace ContosoPizzaNoSQl.Services;
 
@@ -29,14 +30,29 @@ public class PizzaService : IPizzaService
     }
 
 
-    public async Task<List<Pizza>> GetPizzaAsync()
+    public async Task<List<Pizza>> GetAllPizzaAsync()
     {
-        return await _pizzaRepository.GetAsync();
+        return await _pizzaRepository.GetAllAsync();
     }
 
     public async Task<Pizza?> UpdatePizzaAsync(string id, Pizza pizza)
     {
         await _pizzaRepository.UpdateAsync(id, pizza);
         return await _pizzaRepository.GetByIdAsync(id);
+    }
+
+    public async Task<PagedOutput<Pizza>> GetPizzaAsync(int pageNumber, int pageSize, string sortBy, string order)
+    {
+        bool ascending = order.Equals("ASC", StringComparison.OrdinalIgnoreCase);
+        var sortDefinition = sortBy switch
+        {
+            "price" => ascending ? Builders<Pizza>.Sort.Ascending(p => p.Price) : Builders<Pizza>.Sort.Descending(p => p.Price),
+            "name" => ascending ? Builders<Pizza>.Sort.Ascending(p => p.Name) : Builders<Pizza>.Sort.Descending(p => p.Name),
+            _ => Builders<Pizza>.Sort.Ascending(p => p.Name),
+        };
+        int totalCount = await _pizzaRepository.CountAsync();
+        var pizzas = await _pizzaRepository.GetAsync(pageNumber, pageSize, sortDefinition);
+
+        return new PagedOutput<Pizza>(pizzas, totalCount, pageNumber, pageSize);
     }
 }

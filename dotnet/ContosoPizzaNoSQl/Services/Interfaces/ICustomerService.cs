@@ -9,4 +9,7 @@ public interface ICustomerService
     Task CreateCustomerAsync(Customer customer);
     Task<Customer?> UpdateCustomerAsync(string id, Customer customer);
     Task DeleteCustomerAsync(string id);
+    Task<Customer?> GetCustomerByEmailAsync(string email);
+    Task<Customer?> GetCustomerByUsernameAsync(string username);
+    Task<bool> IsUsernameAvailableAsync(string username);
 }

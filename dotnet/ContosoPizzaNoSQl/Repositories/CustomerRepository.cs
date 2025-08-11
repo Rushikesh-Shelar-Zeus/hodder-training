@@ -32,9 +32,19 @@ public class CustomerRepository : ICustomerRepository
         return await _customer.Find(_ => true).ToListAsync();
     }
 
+    public async Task<Customer?> GetByEmailAsync(string email)
+    {
+        return await _customer.Find(c => c.Email == email).FirstOrDefaultAsync();
+    }
+
     public async Task<Customer?> GetByIdAsync(string id)
     {
         return await _customer.Find(c => c.Id == id).FirstOrDefaultAsync();
+    }
+
+    public async Task<Customer?> GetByUsernameAsync(string username)
+    {
+        return await _customer.Find(c => c.Username == username).FirstOrDefaultAsync();
     }
 
     public async Task UpdateAsync(string id, Customer customer)

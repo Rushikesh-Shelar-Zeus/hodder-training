@@ -9,4 +9,6 @@ public interface ICustomerRepository
     Task CreateAsync(Customer customer);
     Task UpdateAsync(string id, Customer customer);
     Task DeleteAsync(string id);
+    Task<Customer?> GetByEmailAsync(string email);
+    Task<Customer?> GetByUsernameAsync(string username);
 }

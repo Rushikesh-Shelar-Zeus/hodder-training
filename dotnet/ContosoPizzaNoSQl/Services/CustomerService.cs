@@ -24,12 +24,40 @@ public class CustomerService : ICustomerService
 
     public async Task<List<Customer>> GetCustomerAsync()
     {
-        return await _customerRepository.GetAsync();
+        try
+        {
+            return await _customerRepository.GetAsync();
+        }catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching customers: {ex.Message}");
+            throw new GraphQLException(
+                ErrorBuilder.New()
+                    .SetMessage("Failed to fetch customers")
+                    .SetCode("FETCH_CUSTOMERS_FAILED")
+                    .Build()
+            );
+        }
+    }
+
+    public async Task<Customer?> GetCustomerByEmailAsync(string email)
+    {
+        return await _customerRepository.GetByEmailAsync(email);
     }
 
     public async Task<Customer?> GetCustomerByIdAsync(string id)
     {
         return await _customerRepository.GetByIdAsync(id);
+    }
+
+    public async Task<Customer?> GetCustomerByUsernameAsync(string username)
+    {
+        return await _customerRepository.GetByUsernameAsync(username);
+    }
+
+    public async Task<bool> IsUsernameAvailableAsync(string username)
+    {
+        var customer = await _customerRepository.GetByUsernameAsync(username);
+        return customer == null;
     }
 
     public async Task<Customer?> UpdateCustomerAsync(string id, Customer customer)

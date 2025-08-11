@@ -49,11 +49,27 @@ public class OrderRepository : IOrderRepository
         }
     }
 
-    public async Task<List<Order>> GetAsync()
+    public async Task<List<Order>> GetAllAsync()
     {
         try
         {
             return await _orders.Find(_ => true).ToListAsync();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public Task<List<Order>> GetAsync(int pageNumber, int pageSize, SortDefinition<Order> sortDefinition)
+    {
+        try
+        {
+            return _orders.Find(_ => true)
+                          .Sort(sortDefinition)
+                          .Skip((pageNumber - 1) * pageSize)
+                          .Limit(pageSize)
+                          .ToListAsync();
         }
         catch (Exception)
         {

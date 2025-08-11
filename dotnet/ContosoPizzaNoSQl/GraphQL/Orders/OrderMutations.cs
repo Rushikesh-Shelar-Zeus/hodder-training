@@ -6,7 +6,7 @@ namespace ContosoPizzaNoSQl.GraphQL.Orders;
 [ExtendObjectType(typeof(Mutation))]
 public class OrderMutations
 {
-    public async Task<Order> CreateOrder(CreateOrderInput input, [Service] IOrderService orderService)
+    public async Task<Order?> CreateOrder(CreateOrderInput input, [Service] IOrderService orderService)
     {
         var order = new Order
         {
@@ -17,8 +17,8 @@ public class OrderMutations
                 Quantity = item.Quantity
             })]
         };
-        await orderService.CreateOrderAsync(input.CustomerId, order.OrderItems);
-        return order;
+        var createdOrder = await orderService.CreateOrderAsync(input.CustomerId, order.OrderItems);
+        return createdOrder;
     }
 
     public async Task<bool> DeleteOrder(string id, [Service] IOrderService orderService)

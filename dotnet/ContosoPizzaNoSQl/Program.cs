@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using ContosoPizzaNoSQl.GraphQL;
 using ContosoPizzaNoSQl.Services;
 using ContosoPizzaNoSQl.Repositories;
@@ -7,6 +10,7 @@ using ContosoPizzaNoSQl.Services.Interfaces;
 using ContosoPizzaNoSQl.Repositories.Interfaces;
 using ContosoPizzaNoSQl.GraphQL.Customers;
 using ContosoPizzaNoSQl.GraphQL.Orders;
+using ContosoPizzaNoSQl.GraphQL.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +25,26 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<JwtService>();
+
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+            ValidAudience = builder.Configuration["JwtSettings:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
+        };
+    });
 
 
 builder.Services.AddControllers();
@@ -37,7 +61,9 @@ builder.Services.AddGraphQLServer()
     .AddTypeExtension<CustomerQueries>()
     .AddTypeExtension<CustomerMutations>()
     .AddTypeExtension<OrderMutations>()
-    .AddTypeExtension<OrderQueries>();
+    .AddTypeExtension<OrderQueries>()
+    .AddTypeExtension<AuthMutations>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,6 +75,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapGraphQL();  // This sets up /graphql endpoint
