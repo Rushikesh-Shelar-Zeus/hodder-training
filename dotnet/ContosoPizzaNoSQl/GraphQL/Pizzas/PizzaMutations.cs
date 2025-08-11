@@ -19,7 +19,7 @@ public class PizzaMutations
         return pizza;
     }
 
-    public async Task UpdatePizza(string id, CreatePizzaInput input, [Service] IPizzaService pizzaService)
+    public async Task<Pizza?> UpdatePizza(string id, CreatePizzaInput input, [Service] IPizzaService pizzaService)
     {
 
         var existing = await pizzaService.GetPizzaByIdAsync(id);
@@ -35,7 +35,7 @@ public class PizzaMutations
             IsGlutenFree = input.IsGlutenFree
         };
 
-        await pizzaService.UpdatePizzaAsync(id, updatedPizza);
+        return await pizzaService.UpdatePizzaAsync(id, updatedPizza);
     }
 
     public async Task<bool> DeletePizza(string id, [Service] IPizzaService pizzaService)

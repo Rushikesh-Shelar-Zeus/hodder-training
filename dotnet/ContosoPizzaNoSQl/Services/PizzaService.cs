@@ -25,7 +25,7 @@ public class PizzaService : IPizzaService
 
     public async Task<Pizza?> GetPizzaByIdAsync(string id)
     {
-       return await _pizzaRepository.GetByIdAsync(id);
+        return await _pizzaRepository.GetByIdAsync(id);
     }
 
 
@@ -34,8 +34,9 @@ public class PizzaService : IPizzaService
         return await _pizzaRepository.GetAsync();
     }
 
-    public async Task UpdatePizzaAsync(string id, Pizza pizza)
+    public async Task<Pizza?> UpdatePizzaAsync(string id, Pizza pizza)
     {
         await _pizzaRepository.UpdateAsync(id, pizza);
+        return await _pizzaRepository.GetByIdAsync(id);
     }
 }

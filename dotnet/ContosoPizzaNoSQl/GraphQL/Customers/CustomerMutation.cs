@@ -27,7 +27,7 @@ public class CustomerMutations
         return customer;
     }
 
-    public async Task UpdateCustomer(string id, CreateCustomerInput input)
+    public async Task<Customer?> UpdateCustomer(string id, CreateCustomerInput input)
     {
         var existingCustomer = await _customerService.GetCustomerByIdAsync(id);
         if (existingCustomer == null)
@@ -43,7 +43,7 @@ public class CustomerMutations
             Address = input.Address
         };
 
-        await _customerService.UpdateCustomerAsync(id, updatedCustomer);
+        return await _customerService.UpdateCustomerAsync(id, updatedCustomer);
     }
 
     public async Task<bool> DeleteCustomer(string id)

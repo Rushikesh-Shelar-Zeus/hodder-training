@@ -17,4 +17,7 @@ public class Customer
     public string? PhoneNumber { get; set; }
     [BsonElement("address")]
     public string? Address { get; set; }
+
+    public List<Order> Orders { get; set; } = new();
+
 }

@@ -7,10 +7,10 @@ public class Pizza
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; } = String.Empty;
+    public string Id { get; set; } = string.Empty;
 
     [BsonElement("name")]
-    public string Name { get; set; } = String.Empty;
+    public string Name { get; set; } = string.Empty;
     [BsonElement("price")]
     public decimal Price { get; set; } = 0;
 
