@@ -1,6 +1,7 @@
 using ContosoPizzaNoSQl.Models;
 using ContosoPizzaNoSQl.Repositories.Interfaces;
 using ContosoPizzaNoSQl.Services.Interfaces;
+using MongoDB.Bson;
 
 namespace ContosoPizzaNoSQl.Services;
 
@@ -20,7 +21,7 @@ public class OrderService : IOrderService
         _orderRepository = orderRepository;
     }
 
-    public async Task CreateOrderAsync(string customerId, List<OrderItem> orderItems)
+    public async Task<Order?> CreateOrderAsync(string customerId, List<OrderItem> orderItems)
     {
         try
         {
@@ -43,29 +44,98 @@ public class OrderService : IOrderService
                 item.IsGlutenFree = pizza.IsGlutenFree;
                 totalAmount += pizza.Price * item.Quantity;
             }
+            var order = new Order
+            {
+                CustomerId = customerId,
+                OrderItems = orderItems,
+                TotalAmount = totalAmount,
+                CreatedAt = DateTime.UtcNow,
+                CustomerName = customer.Name
+            };
+            await _orderRepository.CreateAsync(order);
+            return order; 
         }
         catch (Exception ex)
         {
             throw new InvalidOperationException("Error creating order", ex);
         }
     }
-    public Task DeleteOrderAsync(string id)
+    public async Task DeleteOrderAsync(string id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            await _orderRepository.DeleteAsync(id);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error deleting order", ex);
+        }
     }
 
-    public Task<Order?> GetOrderByIdAsync(string id)
+    public async Task<Order?> GetOrderByIdAsync(string id)
     {
-        throw new NotImplementedException();
+        try
+        {
+
+            if (!ObjectId.TryParse(id, out _))
+            {
+                throw new GraphQLException(
+                    ErrorBuilder.New()
+                        .SetMessage("Invalid order ID format")
+                        .SetCode("INVALID_ID")
+                        .Build()
+                );
+            }
+            var order = await _orderRepository.GetByIdAsync(id);
+            if (order == null)
+            {
+                throw new GraphQLException(
+                ErrorBuilder.New()
+                    .SetMessage("Order not found")
+                    .SetCode("ORDER_NOT_FOUND")
+                    .Build()
+                );
+            }
+            return order;
+        }
+        catch (GraphQLException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error retrieving order: {ex.Message}");
+            throw new GraphQLException(
+                ErrorBuilder.New()
+                    .SetMessage("An unexpected error occurred while retrieving the order")
+                    .SetCode("INTERNAL_ERROR")
+                    .Build()
+            );
+
+        }
     }
 
     public Task<List<Order>> GetOrdersAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            return _orderRepository.GetAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error getting orders", ex);
+        }
     }
 
     public Task<List<Order>> GetOrdersByCustomerIdAsync(string customerId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            return _orderRepository.GetByCustomerIdAsync(customerId);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException($"Error getting orders for customer with ID {customerId}", ex);
+        }
     }
 }

@@ -6,6 +6,7 @@ using ContosoPizzaNoSQl.GraphQL.Pizzas;
 using ContosoPizzaNoSQl.Services.Interfaces;
 using ContosoPizzaNoSQl.Repositories.Interfaces;
 using ContosoPizzaNoSQl.GraphQL.Customers;
+using ContosoPizzaNoSQl.GraphQL.Orders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,8 @@ builder.Services.AddScoped<IPizzaRepository, PizzaRepository>();
 builder.Services.AddScoped<IPizzaService, PizzaService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 
 builder.Services.AddControllers();
@@ -33,8 +36,8 @@ builder.Services.AddGraphQLServer()
     .AddTypeExtension<PizzaMutations>()
     .AddTypeExtension<CustomerQueries>()
     .AddTypeExtension<CustomerMutations>()
-    .AddErrorFilter<ExceptionFilter>();
-
+    .AddTypeExtension<OrderMutations>()
+    .AddTypeExtension<OrderQueries>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

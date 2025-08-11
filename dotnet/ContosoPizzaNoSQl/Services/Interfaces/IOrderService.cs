@@ -7,6 +7,6 @@ public interface IOrderService
     Task<List<Order>> GetOrdersAsync();
     Task<List<Order>> GetOrdersByCustomerIdAsync(string customerId);
     Task<Order?> GetOrderByIdAsync(string id);
-    Task CreateOrderAsync(string customerId, List<OrderItem> orderItem);
+    Task<Order?> CreateOrderAsync(string customerId, List<OrderItem> orderItem);
     Task DeleteOrderAsync(string id);
 }

@@ -9,7 +9,6 @@ namespace ContosoPizzaNoSQl.Repositories;
 public class OrderRepository : IOrderRepository
 {
     private readonly IMongoCollection<Order> _orders;
-
     public OrderRepository(IOptions<MongoDbSettings> settings)
     {
         var mongoClient = new MongoClient(settings.Value.ConnectionString);
@@ -21,10 +20,18 @@ public class OrderRepository : IOrderRepository
         try
         {
             await _orders.InsertOneAsync(order);
+            var orderItems = order.OrderItems.Select(item => new OrderItem
+            {
+                PizzaId = item.PizzaId,
+                Quantity = item.Quantity,
+                PizzaName = item.PizzaName,
+                UnitPrice = item.UnitPrice,
+                IsGlutenFree = item.IsGlutenFree
+            }).ToList();
+            
         }
         catch (Exception)
         {
-
             throw;
         }
     }
@@ -50,6 +57,19 @@ public class OrderRepository : IOrderRepository
         }
         catch (Exception)
         {
+            throw;
+        }
+    }
+
+    public Task<List<Order>> GetByCustomerIdAsync(string customerId)
+    {
+        try
+        {
+            return _orders.Find(o => o.CustomerId == customerId).ToListAsync();
+        }
+        catch (Exception)
+        {
+
             throw;
         }
     }

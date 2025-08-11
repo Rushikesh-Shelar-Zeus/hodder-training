@@ -6,9 +6,6 @@ namespace ContosoPizzaNoSQl.Models;
 public class OrderItem
 {
     [BsonRepresentation(BsonType.ObjectId)]
-    public string OrderId { get; set; } = string.Empty;
-
-    [BsonRepresentation(BsonType.ObjectId)]
     public string PizzaId { get; set; } = string.Empty;
 
     [BsonElement("pizzaName")]
