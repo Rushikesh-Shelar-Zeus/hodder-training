@@ -17,7 +17,9 @@ public class OrderMutations
                 Quantity = item.Quantity
             })]
         };
+        Console.WriteLine($"Creating order for customer {input.CustomerId} with {input.OrderItems.Count} items.");
         var createdOrder = await orderService.CreateOrderAsync(input.CustomerId, order.OrderItems);
+        Console.WriteLine($"Order created with ID: {createdOrder?.Id}");
         return createdOrder;
     }
 

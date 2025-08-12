@@ -8,13 +8,13 @@ namespace ContosoPizzaNoSQl.GraphQL.Pizzas;
 
 public class PizzaQueries
 {
-    public async Task<List<Pizza>> GetPizzas(PizzaPagedInput input, [Service] IPizzaService pizzaService)
+    public async Task<PagedOutput<Pizza>> GetPizzas(PizzaPagedInput input, [Service] IPizzaService pizzaService)
     {
         var pagedResult = await pizzaService.GetPizzaAsync(pageNumber: input.PageNumber,
                                                           pageSize: input.PageSize,
                                                           sortBy: input.SortBy.ToString().ToLower(),
                                                           order: input.Order.ToString().ToLower());
-        return pagedResult.Items; // Replace 'Items' with the actual property name if different
+        return pagedResult;
     }
 
     public async Task<List<Pizza>> GetAllPizzas([Service] IPizzaService pizzaService)

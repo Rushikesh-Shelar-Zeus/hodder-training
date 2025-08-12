@@ -5,14 +5,11 @@ public class ExceptionFilter : IErrorFilter
 
     public IError OnError(IError error)
     {
-        if (error.Exception is GraphQLException graphQLException)
+         if (error.Exception is GraphQLException ex)
         {
-            return error.WithMessage(graphQLException.Message);
+            return ex.Errors.First();
         }
-
-        return error
-          .WithMessage("Something went wrong. Please try again later.")
-          .RemoveExtension("extensions");
+        return error;;
           
     }
 }

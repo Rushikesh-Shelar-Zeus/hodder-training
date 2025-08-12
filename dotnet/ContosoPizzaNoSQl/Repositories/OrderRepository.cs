@@ -15,6 +15,12 @@ public class OrderRepository : IOrderRepository
         var database = mongoClient.GetDatabase(settings.Value.DatabaseName);
         _orders = database.GetCollection<Order>("Orders");
     }
+
+    public async Task<int> CountAsync()
+    {
+        return (int)await _orders.CountDocumentsAsync(FilterDefinition<Order>.Empty);
+    }
+
     public async Task CreateAsync(Order order)
     {
         try
@@ -28,7 +34,7 @@ public class OrderRepository : IOrderRepository
                 UnitPrice = item.UnitPrice,
                 IsGlutenFree = item.IsGlutenFree
             }).ToList();
-            
+
         }
         catch (Exception)
         {

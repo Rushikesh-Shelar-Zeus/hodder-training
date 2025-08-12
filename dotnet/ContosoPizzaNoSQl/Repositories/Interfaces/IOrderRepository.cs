@@ -12,4 +12,6 @@ public interface IOrderRepository
     Task CreateAsync(Order order);
     Task UpdateAsync(string id, Order order);
     Task DeleteAsync(string id);
+    Task<int> CountAsync();
+
 }

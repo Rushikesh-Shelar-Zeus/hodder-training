@@ -32,6 +32,17 @@ public class OrderService : IOrderService
                 throw new ArgumentException("Customer not found");
             }
 
+            bool isQuantityValid = orderItems.All(item => item.Quantity > 0);
+            if (!isQuantityValid)
+            {
+                throw new GraphQLException(
+                    ErrorBuilder.New()
+                        .SetMessage("Order items must have a quantity greater than zero")
+                        .SetCode("INVALID_QUANTITY")
+                        .Build()
+                );
+            }
+
             decimal totalAmount = 0;
             foreach (var item in orderItems)
             {
@@ -55,6 +66,10 @@ public class OrderService : IOrderService
             };
             await _orderRepository.CreateAsync(order);
             return order;
+        }
+        catch(GraphQLException)
+        {
+            throw;
         }
         catch (Exception ex)
         {
@@ -140,7 +155,7 @@ public class OrderService : IOrderService
         }
     }
 
-    public Task<List<Order>> GetOrdersAsync(int pageNumber, int pageSize, string sortBy, string order)
+    public async Task<PagedOutput<Order>> GetOrdersAsync(int pageNumber, int pageSize, string sortBy, string order)
     {
         try
         {
@@ -151,8 +166,9 @@ public class OrderService : IOrderService
                 "createdat" => ascending ? Builders<Order>.Sort.Ascending(o => o.CreatedAt) : Builders<Order>.Sort.Descending(o => o.CreatedAt),
                 _ => ascending ? Builders<Order>.Sort.Ascending(o => o.CustomerName) : Builders<Order>.Sort.Descending(o => o.CustomerName)
             };
-
-            return _orderRepository.GetAsync(pageNumber, pageSize, sortDefinition);
+            var totalCount = await _orderRepository.CountAsync();
+            var orders = await _orderRepository.GetAsync(pageNumber, pageSize, sortDefinition);
+            return new PagedOutput<Order>(orders, totalCount, pageNumber, pageSize);
         }
         catch (Exception ex)
         {

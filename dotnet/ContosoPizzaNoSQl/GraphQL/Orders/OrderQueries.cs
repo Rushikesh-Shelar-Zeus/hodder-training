@@ -16,7 +16,7 @@ public class OrderQueries
         return await orderService.GetOrderByIdAsync(id);
     }
 
-    public async Task<List<Order>> GetOrders(OrderPagedInput input, [Service] IOrderService orderService)
+    public async Task<PagedOutput<Order>> GetOrders(OrderPagedInput input, [Service] IOrderService orderService)
     {
         return await orderService.GetOrdersAsync(pageNumber: input.PageNumber,
                                                   pageSize: input.PageSize,
