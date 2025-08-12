@@ -1,0 +1,181 @@
+/* pizza.css */
+
+.pizza-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+.pizza-container h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #222;
+  text-align: center;
+}
+
+/* Controls bar */
+.controls-bar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.sort-controls select,
+.pagination-controls button {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.sort-controls select:hover,
+.pagination-controls button:hover {
+  background: #fff7ed;
+  border-color: #f97316;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.pagination-controls span {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.pagination-controls button:disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+}
+
+th {
+  background: #f97316;
+  /* warm pizza orange */
+  color: white;
+  font-weight: 500;
+}
+
+tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.2s ease;
+}
+
+tr:hover {
+  background: #fff7ed;
+}
+
+td {
+  color: #333;
+}
+
+/* Add to Cart button */
+/* Ensure Action column is centered */
+td:last-child {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Add to Cart button styling */
+.action-btn {
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-radius: 6px;
+  background: #3b82f6;
+  /* nice blue */
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.action-btn:hover {
+  background: #2563eb;
+  transform: scale(1.05);
+}
+
+/* Optional: Make table rows a bit taller for better vertical alignment */
+tr {
+  height: 50px;
+}
+
+/* Gluten-free tag styles */
+.gluten-free-yes {
+  color: #10b981; /* emerald green */
+  font-weight: bold;
+}
+
+.gluten-free-no {
+  color: #ef4444; /* red */
+  font-weight: bold;
+}
+
+
+/* Responsive table for mobile */
+@media (max-width: 768px) {
+
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+    width: 100%;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    padding: 0.8rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  td {
+    padding: 0.5rem 0;
+    text-align: right;
+    position: relative;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+  }
+}

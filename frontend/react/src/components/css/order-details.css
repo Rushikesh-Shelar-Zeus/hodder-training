@@ -1,0 +1,141 @@
+/* orderDetails.css */
+
+.order-details {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+.order-header {
+    margin-bottom: 2rem;
+}
+
+.order-header h2 {
+    font-size: 1.8rem;
+    color: #222;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.order-info {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.order-info-item {
+    background: #f9fafb;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.order-info-item label {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.4rem;
+}
+
+.order-info-item span {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #111;
+}
+
+/* Table styling */
+.order-table-container {
+    overflow-x: auto;
+}
+
+.order-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.order-table-container th,
+.order-table-container td {
+    padding: 0.9rem 1rem;
+    text-align: left;
+}
+
+.order-table-container th {
+    background: #2563eb;
+    color: white;
+    font-weight: 500;
+}
+
+.order-table-container tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background 0.2s ease;
+}
+
+.order-table-container tr:hover {
+    background: #f3f4f6;
+}
+
+/* Gluten-free tag styles */
+.gluten-free-yes {
+    color: #10b981;
+    font-weight: bold;
+}
+
+.gluten-free-no {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+/* Total row */
+.order-table-container tbody tr:last-child td {
+    font-weight: bold;
+    background: #f9fafb;
+}
+
+/* Responsive: Mobile-friendly table */
+@media (max-width: 768px) {
+    .order-table-container table,
+    .order-table-container thead,
+    .order-table-container tbody,
+    .order-table-container th,
+    .order-table-container td,
+    .order-table-container tr {
+        display: block;
+        width: 100%;
+    }
+
+    .order-table-container thead {
+        display: none;
+    }
+
+    .order-table-container tr {
+        margin-bottom: 1rem;
+        background: #fff;
+        border-radius: 8px;
+        padding: 0.8rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .order-table-container td {
+        padding: 0.5rem 0;
+        text-align: right;
+        position: relative;
+    }
+
+    .order-table-container td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+        color: #555;
+        text-align: left;
+    }
+}
